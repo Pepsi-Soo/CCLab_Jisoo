@@ -1,0 +1,13 @@
+body{
+    background-color:  rosybrown;
+}
+p{
+    font-size: medium;
+    color: royalblue;
+}
+.jisoosIntro{
+    color: orange;
+    background-color: antiquewhite;
+    /* see it in 10.2b slides to have more */
+    /* it can change the color only the class*/
+}

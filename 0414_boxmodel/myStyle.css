@@ -1,0 +1,65 @@
+/* body{
+    margin:0px;
+} */
+h1{
+    font-family: sans-serif;
+    color: violet;
+}
+.specialHighlight{
+  background-color: antiquewhite;
+  font-size: larger;
+  border-color:purple;
+  border-style: dotted;
+  border-width:2px;
+}
+.Image{
+    width: 100px;
+    /* border: 2px lemonchiffon; */
+}
+.ImageBox{
+    border-width:1px ;
+    border-style: solid;
+    border-color: plum;
+
+    /* pushing to the inside with padding*/
+    padding: 15px;
+    /* pushing away with others */
+    margin: 10px;
+    /* margin-left: 80px; */
+    background-color: rgb(250, 240, 225);
+}
+.Second{
+    background-color: aqua;
+    position: absolute;
+    top:200px;
+    left:200px;
+    /* not regard other elements  be front*/
+}
+.Third{
+    background-color: aquamarine;
+    position:fixed;
+    top:300px;
+    left:50px;
+    /* like a physical window it won't move by the website it's sticky */
+}
+.Fourth{
+    background-color: azure;
+    position: relative;
+    top: 10px;
+    left:30px;
+    /* original location not fully understand!!! */
+    
+}
+.secondlast{
+    display: inline-block;
+    mask-border-width: 200px;
+}
+.thelast{
+    width:500px;
+    margin:auto;
+    /* now it's center */
+}
+/* put all the things in a big div */
+/* use a new class */
+/* let them all be center  */
+/* width: */
