@@ -4,11 +4,11 @@ let NofCatch = 0;
 let CanCatch = 1;
 let shipX = 0;
 let sailorX = 0;
+
 function setup() {
-  createCanvas(800, 400);
-  // for (let i = 0; i < NofStars; i++) {
-  //   stars.push(new Star(random(width), 0));
-  // }
+  let canvas = createCanvas(800, 400);
+  canvas.parent("canvasContainer");
+  background(220);
 }
 
 function keyPressed() {
