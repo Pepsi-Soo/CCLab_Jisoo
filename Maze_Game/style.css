@@ -1,0 +1,8 @@
+body{
+    margin:0;
+    background-color: mintcream;
+}
+/* the # let us style the element with a given ID */
+#canvasContainer{
+margin-left: 30px;
+}

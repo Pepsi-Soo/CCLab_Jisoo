@@ -1,0 +1,21 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: coral;
+}
+
+canvas {
+    display: block;
+}
+
+
+/* 
+the "#" let's us style 
+the elemnt with a given ID
+ */
+#canvasContainer{
+   margin-left: 30px; 
+
+}
+
+
