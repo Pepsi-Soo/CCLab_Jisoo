@@ -5,18 +5,18 @@
 
  
 
-var cols = 25;  // How many columns the canvas has
-var rows = 25;  // How many rows the canvas has
-var spriteSize = 30;  // The size of the grid
-var mazeMap;  // Maze map
-var wallRect, grassRect;
-var playerCol, playerRow; // The player's position in the grid
-var goalImg;
-var goalX, goalY; // The coordinates of the end point
-var controlTimer = -1; // Prevent players from moving too fast
-var score = 1000;
-var player;
-var mist = [];
+let cols = 25;  // How many columns the canvas has
+let rows = 25;  // How many rows the canvas has
+let spriteSize = 30;  // The size of the grid
+let mazeMap;  // Maze map
+let wallRect, grassRect;
+let playerCol, playerRow; // The player's position in the grid
+let goalImg;
+let goalX, goalY; // The coordinates of the end point
+let controlTimer = -1; // Prevent players from moving too fast
+let score = 1000;
+let player;
+let mist = [];
 
 // download all image assets
 function preload() {
@@ -74,7 +74,7 @@ function draw() {
     rect(mm.x * spriteSize, mm.y * spriteSize, spriteSize, spriteSize);
   }
 
-  // Draw the player
+  // the player
   player.display();
   player.update();
 
@@ -82,14 +82,7 @@ function draw() {
   // Draw the end point
   image(goalImg, goalX, goalY, spriteSize, spriteSize);
 
-  // Display score
-  // noStroke();
-  // fill("#e5e5e5");
-  // rect(width - 195, height - 27.5, 175, 25);
-  // fill(0);
-  // textAlign(LEFT, CENTER);
-  // textSize(24);
-  // text("SCORE: " + score, width - 180, height - 13);
+
 
   // Once the player reaches the end, reload the new maze
   if (playerCol == mazeMap.goal.x && playerRow == mazeMap.goal.y) {
@@ -98,7 +91,7 @@ function draw() {
   }
 }
 
-/* Up, down, left, and right keys to control player movement. */
+// control player movement. 
 function controlPlayer() {
   if (controlTimer < 0) {
     if (keyIsDown(LEFT_ARROW)) {
@@ -126,7 +119,7 @@ function controlPlayer() {
   controlTimer--;
 }
 
-/* Load the game map. */
+// Load the game map. 
 function loadMap() {
   mazeMap = maze((cols - 1) / 2, (rows - 1) / 2);
   playerCol = mazeMap.start.x;
@@ -135,7 +128,7 @@ function loadMap() {
   goalY = mazeMap.goal.y * spriteSize;
 }
 
-/* Generate data for maze map. */
+//  maze map. 
 function maze(w, h) {
   // Initialize the map (2w+1)x(2h+1)
   let m = [];
@@ -275,21 +268,21 @@ function maze(w, h) {
   return { m, start: { x: startX, y: startY }, goal: { x: goalX, y: goalY }, isGoal, isStart };
 }
 
-/* Player class */
+//Player 
 class Player {
-  constructor(_x, _y, _s) {
-    this.x = _x;
-    this.y = _y;
-    this.s = _s;
+  constructor(x, y, s) {
+    this.x = x;
+    this.y = y;
+    this.s = s;
   }
 
-  /* Up, down, left, and right keys to control player movement. */
+  //movement by keyIsPresses
   update() {
     this.x = (playerCol + 0.5) * spriteSize;
     this.y = (playerRow + 0.5) * spriteSize;
   }
 
-  /* Draw the game player --- sailor. */
+  //Draw the game player
   display() {
     push();
     translate(this.x, this.y + 5);
