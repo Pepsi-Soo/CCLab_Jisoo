@@ -1,12 +1,6 @@
-// 
-//  Maze Garden
-//   Welcome to my maze garden! 
-//   To play the game, use the arrow keys on your keyboard to move the character through the maze. 
 
- 
-
-let cols = 25;  // How many columns the canvas has
-let rows = 25;  // How many rows the canvas has
+let cols = 25;  //  columns the canvas has
+let rows = 25;  //  rows the canvas has
 let spriteSize = 30;  // The size of the grid
 let mazeMap;  // Maze map
 let wallRect, grassRect;
@@ -16,31 +10,28 @@ let goalX, goalY; // The coordinates of the end point
 let controlTimer = -1; // Prevent players from moving too fast
 let score = 1000;
 let player;
-let mist = [];
+let mist;
+let flowers = [];
+let flowerIds;
+let restartImg;
 
-// download all image assets
+//images loading
 function preload() {
   grassRect = loadImage("assets/grass.png");
   wallRect = loadImage("assets/wall.png");
   goalImg = loadImage("assets/goal.png");
+  restartImg = loadImage("assets/restart.png");
+
+  for (let i = 1; i <= 3; i++) {
+    flowers.push(loadImage("assets/flower (" + i + ").png"));
+  }
 }
 
 function setup() {
-  //make every col x row be a square
   createCanvas(spriteSize * cols, spriteSize * rows);
   noStroke();
-  // download the maze map
+  // load the maze map
   loadMap();
-  player = new Player((playerCol + 0.5) * spriteSize, (playerRow + 0.5) * spriteSize, 0.16);
-
-  for (let y = 0; y < rows; y++) {
-    for (let x = 0; x < cols; x++) {
-      const index = mazeMap.m[y][x];
-      if (index == 1) {
-        mist.push(createVector(x, y, 0));
-      }
-    }
-  }
 }
 
 function draw() {
@@ -57,41 +48,81 @@ function draw() {
     }
   }
 
-  controlPlayer();
-
   for (let i = 0; i < mist.length; i++) {
     let mm = mist[i];
 
+    // The player's position
     if (mm.z == 0 && int(mm.x) == playerCol && int(mm.y) == playerRow) {
-      mm.z = 1;
+      mm.z = 2;
     }
 
-    if (mm.z > 0) {
-      fill(0, 0);
+    // The location of the target
+    if (mm.z == 0 && int(mm.x) == mazeMap.goal.x && int(mm.y) == mazeMap.goal.y) {
+      mm.z = 2;
+    }
+
+    // bricks
+    if (mm.z == 1 && dist(mm.x, mm.y, playerCol, playerRow) < 2) {
+      mm.z = 3;
+    }
+
+    if (mm.z == 2 && dist(mm.x, mm.y, playerCol, playerRow) == 1) {
+      mm.z = 4;
+    }
+
+    // The player's position
+    if (mm.z == 4 && int(mm.x) == playerCol && int(mm.y) == playerRow) {
+      mm.z = 2;
+    }
+
+    if (mm.z <= 1) {
+      fill(0, 245);
     } else {
-      fill(0, 150);
+      fill(0, 0);
     }
     rect(mm.x * spriteSize, mm.y * spriteSize, spriteSize, spriteSize);
+
+    if (mm.z == 4) {
+      image(flowers[flowerIds[i]], mm.x * spriteSize, mm.y * spriteSize, spriteSize, spriteSize);
+    }
   }
-
-  // the player
-  player.display();
-  player.update();
-
 
   // Draw the end point
   image(goalImg, goalX, goalY, spriteSize, spriteSize);
 
-
+  // Draw the player
+  player.display();
+  player.update();
 
   // Once the player reaches the end, reload the new maze
   if (playerCol == mazeMap.goal.x && playerRow == mazeMap.goal.y) {
-    loadMap();
-    score += 1000;
+    for (let i = 0; i < mist.length; i++) {
+      let mm = mist[i];
+      if (mm.z <= 1) {
+        mm.z = 2;
+      }
+    }
+    push();
+    if (mouseX > width / 2 - 50 && mouseX < width / 2 + 50
+      && mouseY > height / 2 - 25 && mouseY < width / 2 + 25) {
+      if (mouseIsPressed) {
+        tint(255, 100);
+        image(restartImg, width / 2 - 50, height / 2 - 25, 100, 50);
+
+        loadMap();
+        score += 1000;
+      } else {
+        tint(255, 200);
+      }
+    }
+    image(restartImg, width / 2 - 50, height / 2 - 25, 100, 50);
+    pop();
+  } else {
+    controlPlayer();
   }
 }
 
-// control player movement. 
+//keyIsDown
 function controlPlayer() {
   if (controlTimer < 0) {
     if (keyIsDown(LEFT_ARROW)) {
@@ -116,7 +147,7 @@ function controlPlayer() {
       }
     }
   }
-  controlTimer--;
+  controlTimer--;//control the speed
 }
 
 // Load the game map. 
@@ -126,9 +157,27 @@ function loadMap() {
   playerRow = mazeMap.start.y;
   goalX = mazeMap.goal.x * spriteSize;
   goalY = mazeMap.goal.y * spriteSize;
+
+  player = new Player((playerCol + 0.5) * spriteSize, (playerRow + 0.5) * spriteSize, 0.16);
+
+  mist = [];
+  flowerIds = [];
+  let id = floor(random(flowers.length));
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < cols; x++) {
+      const index = mazeMap.m[y][x];
+      if (index == 2 || index == 4) {
+        mist.push(createVector(x, y, 1));
+        flowerIds.push(id);
+      } else if (index == 1) {
+        mist.push(createVector(x, y, 0));
+        flowerIds.push(id);
+      }
+    }
+  }
 }
 
-//  maze map. 
+//make a maze map
 function maze(w, h) {
   // Initialize the map (2w+1)x(2h+1)
   let m = [];
@@ -255,7 +304,7 @@ function maze(w, h) {
     }
   }
 
-  // Determine if it is the starting point. 
+  //Determine if it is the starting point. 
   function isStart(x, y) {
     return (startX == 2 * x + 1) && (startY == 2 * y + 1);
   }
@@ -268,7 +317,7 @@ function maze(w, h) {
   return { m, start: { x: startX, y: startY }, goal: { x: goalX, y: goalY }, isGoal, isStart };
 }
 
-//Player 
+// Player class
 class Player {
   constructor(x, y, s) {
     this.x = x;
@@ -276,13 +325,13 @@ class Player {
     this.s = s;
   }
 
-  //movement by keyIsPresses
+  // arrows keys to control player movement. 
   update() {
     this.x = (playerCol + 0.5) * spriteSize;
     this.y = (playerRow + 0.5) * spriteSize;
   }
 
-  //Draw the game player
+  // Draw the game player 
   display() {
     push();
     translate(this.x, this.y + 5);

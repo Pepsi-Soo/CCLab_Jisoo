@@ -1,0 +1,109 @@
+head{
+    
+}
+body{
+    background: linear-gradient(125deg,rgb(236, 206, 205), rgb(223, 214, 205),rgb(211, 220, 207),rgb(200, 225, 218));
+    /*Perform animation effects，duration，linear，infinite play*/
+    animation: change 15s linear infinite;
+}
+@keyframes change{
+    0%{
+        background-position: 0% 50%;
+    }
+    50%{
+        background-position: 100% 50%;
+    }
+    100%{
+        background-position: 0% 50%;
+    }
+}
+h1{
+    color: transparent;
+    font-size: 70px; 
+    font-family: fantasy;
+    margin-left: 100px;
+   /*gradient background*/ 
+    background: linear-gradient(to right,rgb(71, 153, 76), rgb(5, 91, 62),rgb(71, 153, 76));
+    /*Crop the area outside the text*/
+    -webkit-background-clip: text;
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+    /*Perform animation effects，duration，linear，infinite play*/
+    animation: move 2.3s linear infinite;
+}
+@keyframes move {
+    0%{
+     background-position: -500%;
+    }
+    100%{
+     background-position: 500%;
+    }
+    
+}
+
+ul {
+    position: absolute;
+    top: 30%;
+    margin-left: 50%;
+    
+}
+ul li{
+    list-style: circle inside ;
+    /*perform animation for transition*/
+   
+}
+ul li {
+    position: relative;
+    text-align: center;
+    color: rgb(8, 117, 81);
+    font-size: larger;
+    font-family: fantasy;
+}
+
+
+.fixed2{
+    margin-bottom: -30px;
+    margin-left:-10px;
+}
+.container{
+    display: flex;
+    margin-left: 650px;
+    margin-top: 200px;
+}
+.button{
+    position: relative;
+    width: 160px;
+    height: 50px;
+    margin: 0 15px;
+    cursor: pointer;
+}
+.shape{
+    fill: none;
+    stroke: rgb(255,151,171);
+    stroke-width: 6;
+    /*Dashed Line Length and Spacing*/
+    stroke-dasharray: 100 400;
+    /*Dashed Line Offset*/
+    stroke-dashoffset: -240;
+    /*excessive effect*/
+    transition: 1s ease;
+}
+.text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    color: rgb(20, 137, 45);
+    letter-spacing: 2px;
+    font-family: fantasy;
+    font-size: larger;
+    
+}
+/*Change style on mouseover*/
+.button :hover .shape{
+    stroke: rgb(244, 153, 168);
+    stroke-width: 3;
+    stroke-dasharray: 50 0;
+    stroke-dashoffset: 0;
+}

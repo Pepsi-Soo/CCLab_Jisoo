@@ -1,8 +1,51 @@
-body{
-    margin:0;
-    background-color: mintcream;
+head {}
+
+body {
+    zoom:80%;
+    margin: 0;
+    background-color: rgb(164, 209, 202);
 }
-/* the # let us style the element with a given ID */
-#canvasContainer{
-margin-left: 30px;
+
+#canvasContainer {
+    margin-top: 300px;
+    margin-bottom: -800px;
+    margin-left: 10px;
 }
+
+.box {
+    margin-top:100px;
+    margin-left: 800px;
+    margin-bottom: -300px;
+    width: 900px;
+    height: 450px;
+    display: flex;
+    flex-direction: row;
+}
+
+.image-box {
+    width: 100px;
+    height: 600px;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.image-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 20%;
+}
+
+.image-box:nth-child(3) {
+    width: 600px;
+}
+
+.image-box:hover {
+    width: 600px;
+
+}
+
+.image-box:hover~.image-box:nth-child(3) {
+    width: 150px;
+}
+
